@@ -6,7 +6,10 @@ const todos = [
     {id:3, text:'Learn to code'}]
 
 const server = http.createServer((req, res) => {
-    res.setHeader('Content-Type', 'application/json')
+   res.writeHead(200,{
+    'Context-Type':'application/json',
+    'X-Powered-By':'Node.js'
+   })
     res.end(JSON.stringify({
         success:true,
         data:todos
