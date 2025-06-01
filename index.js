@@ -1,18 +1,28 @@
 const http = require("http")
 
 const todos = [
-    {id:1, text:'Clean your room'},
-    {id:2, text:'Walk your dog'},
-    {id:3, text:'Learn to code'}]
+    { id: 1, text: 'Clean your room' },
+    { id: 2, text: 'Walk your dog' },
+    { id: 3, text: 'Learn to code' }]
 
 const server = http.createServer((req, res) => {
-   res.writeHead(200,{
-    'Context-Type':'application/json',
-    'X-Powered-By':'Node.js'
-   })
+    res.writeHead(200, {
+        'Context-Type': 'application/json',
+        'X-Powered-By': 'Node.js'
+    })
+
+    let body = []
+
+    req.on('data', chunk =>{
+        body.push(chunk)
+    }).on('end', ()=>{
+        body = Buffer.concat(body).toString()
+        console.log(body)
+    })
+
     res.end(JSON.stringify({
-        success:true,
-        data:todos
+        success: true,
+        data: todos
     }))
 })
 
