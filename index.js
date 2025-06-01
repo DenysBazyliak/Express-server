@@ -1,9 +1,16 @@
 const http = require("http")
 
+const todos = [
+    {id:1, text:'Clean your room'},
+    {id:2, text:'Walk your dog'},
+    {id:3, text:'Learn to code'}]
+
 const server = http.createServer((req, res) => {
-    const {url, headers, method} = req
-    console.log(url, headers, method)
-    res.end()
+    res.setHeader('Content-Type', 'application/json')
+    res.end(JSON.stringify({
+        success:true,
+        data:todos
+    }))
 })
 
 const PORT = 5000
