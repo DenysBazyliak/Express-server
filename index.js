@@ -6,24 +6,39 @@ const todos = [
     { id: 3, text: 'Learn to code' }]
 
 const server = http.createServer((req, res) => {
-    res.writeHead(200, {
-        'Context-Type': 'application/json',
-        'X-Powered-By': 'Node.js'
-    })
+    const { method, url } = req
 
     let body = []
 
-    req.on('data', chunk =>{
+    req.on('data', chunk => {
         body.push(chunk)
-    }).on('end', ()=>{
+    }).on('end', () => {
         body = Buffer.concat(body).toString()
-        console.log(body)
+
+        let status = 404
+        const response = {
+            success: false,
+            data: null
+        }
+
+        if (method === 'GET' && url === 'todos') {
+            status = 200
+            response.success = true
+            response.data = data
+        }
+
+        res.writeHead(200, {
+            'Context-Type': 'application/json',
+            'X-Powered-By': 'Node.js'
+        })
+
+        res.end(JSON.stringify({
+            success: true,
+            data: todos
+        }))
     })
 
-    res.end(JSON.stringify({
-        success: true,
-        data: todos
-    }))
+
 })
 
 const PORT = 5000
